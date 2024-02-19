@@ -1,34 +1,44 @@
+import CopyPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
 
+
+const dist  = path.resolve(__dirname, "dist")
+const src   = path.resolve(__dirname, "src")
+const nodeModule   = path.resolve(__dirname, "node_modules")
+
 export default {
-    mode: 'development',
+    devtool: "eval",
+    mode: 'production',
     entry: {
         js: path.resolve(__dirname, 'src/index.js')
     },
     output: {
         filename: '[name].[contenthash].js',
-        asyncChunks: true,
+        asyncChunks: false,
         chunkFilename: '[name].[contenthash].bundle.js',
         clean: true
+    },
+    watchOptions: {
+        ignored: nodeModule,
     },
     module: {
         rules: [
             {
                 test: /\.m?js$/,
+                exclude: /node_modules/,
                 resolve: {
                     fullySpecified: false, // disable the behaviour
                 },
             },
         ],
-
     },
     devServer: {
         static: {
-            directory: path.resolve(__dirname, "dist"),
+            directory: dist,
             staticOptions: {},
             serveIndex: true,
             watch: true,
@@ -36,12 +46,19 @@ export default {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            seo: ``,
             title: 'Kid Calculate' ,
-            style: `${path.resolve(__dirname, "dist")}/index.css`,
+            style: `${dist}/index.css`,
             filename: 'index.html',
-            template: `${path.resolve(__dirname, "src")}/index.html`
-        })
+            template: `${src}/index.html`
+        }),
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: `${src}/assets/`,
+                    to: `${dist}/assets`
+                }
+            ],
+        }),
     ]
 };
 

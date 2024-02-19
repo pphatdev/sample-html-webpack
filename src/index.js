@@ -7,10 +7,10 @@ import { loadFull } from "tsparticles";
         options: {
             background: {
                 color: "#000",
-                // image: "url(../profile.PNG)",
+                image: "url(./assets/logo.png)",
                 repeat: "no-repeat",
-                size: "40%",
-                position: "60% 50%"
+                size: "20%",
+                position: "50% 50%"
             },
             interactivity: {
                 events: {
