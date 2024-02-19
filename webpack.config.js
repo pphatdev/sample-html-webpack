@@ -46,7 +46,7 @@ export default {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Kid Calculate' ,
+            title: 'Hello - Leat Sophat' ,
             style: `${dist}/index.css`,
             filename: 'index.html',
             template: `${src}/index.html`
